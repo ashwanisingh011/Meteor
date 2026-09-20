@@ -1,8 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 import { Link, LinksCollection } from '/imports/api/links';
+import { PostsCollection } from '/imports/api/post';
 
 async function insertLink({ title, url }: Pick<Link, 'title' | 'url'>) {
   await LinksCollection.insertAsync({ title, url, createdAt: new Date() });
+}
+
+async function insertPost(){
+  await PostsCollection.insertAsync({
+    title: "My First Meteor Post",
+    content: "This is the content of my first post.",
+    author: "Honey",
+    createdAt: new Date()
+  });
 }
 
 Meteor.startup(async () => {
@@ -27,6 +37,10 @@ Meteor.startup(async () => {
       title: 'Discussions',
       url: 'https://forums.meteor.com',
     });
+  }
+
+  if(await PostsCollection.find().countAsync() === 0){
+    await insertPost();
   }
 
   // We publish the entire Links collection to all clients.
