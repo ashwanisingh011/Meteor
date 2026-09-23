@@ -48,4 +48,8 @@ Meteor.startup(async () => {
   Meteor.publish("links", function () {
     return LinksCollection.find();
   });
+
+  Meteor.publish("posts", function() {
+    return PostsCollection.find();
+  })
 });
