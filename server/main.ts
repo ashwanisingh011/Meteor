@@ -10,7 +10,7 @@ async function insertPost(){
   await PostsCollection.insertAsync({
     title: "My First Meteor Post",
     content: "This is the content of my first post.",
-    author: "Honey",
+    author: "Ashwani Singh",
     createdAt: new Date()
   });
 }
