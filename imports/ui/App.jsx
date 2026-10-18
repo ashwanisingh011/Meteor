@@ -3,19 +3,25 @@
 // import { Info } from "./Info.jsx";
 import React from 'react';
 import { Task } from './Task.jsx';
+import { TaskCollection } from '../api/TaskCollection.js';
+import { useTracker, useSubscribe } from 'meteor/react-meteor-data';
 
-const tasks = [
-  {_id: 1, text: "First Task"},
-  {_id: 2, text: "Second Task"},
-  {_id: 3, text: "Third Task"}
-]
+export const App = () => {
+  const isLoading = useSubscribe("tasks");
+  const tasks = useTracker(() => TaskCollection.find({}).fetch());
 
-export const App = () => (
-  <div>
-   <h1>Simple Todos</h1>
-
-   <ul>
-    {tasks.map((task) => <Task key={task._id} task={task} />)}
-   </ul>
-  </div>
-);
+  if(isLoading()){
+    return <div>Loading...</div>
+  }
+  return (
+    <>
+      <div>
+        <ul>
+          {tasks.map((task) => (
+            <Task key={task._id} task={task} />
+          ))}
+        </ul>
+      </div>
+    </>
+  )
+}
